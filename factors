@@ -1,23 +1,29 @@
-#!/usr/bin/env python3
-
-import sys
-from math import isqrt
-
-
-def factorize(n):
-    """Return a factorization of n into two smaller factors."""
-    for i in range(2, isqrt(n) + 1):
-        if n % i == 0:
-            return f"{n}={i}*{n//i}"
-    return f"{n} is prime"
+#!/usr/bin/python3
+"""factorize given set of numbers in a file to product of two small numbers"""
+from sys import argv
 
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: factors <file>")
-        sys.exit(1)
+def factorize(number_to_check):
+    """"find two small numbers that multiply to give a given number"""
+    i = 2
 
-    with open(sys.argv[1]) as f:
-        for line in f:
-            n = int(line.strip())
-            print(factorize(n))
+    if number_to_check < 2:
+        return
+    
+    while number_to_check % i:
+        i += 1
+    print("{:.0f}={:.0f}*{:.0f}".format(number_to_check, number_to_check / i, i))
+
+if len(argv) != 2:
+    exit()
+
+try:
+    with open(argv[1]) as file:
+        line = file.readline()
+
+        while line != "":
+            number_to_check = int(line.split('\n')[0])
+            factorize(number_to_check)
+            line = file.readline()
+except:
+    pass

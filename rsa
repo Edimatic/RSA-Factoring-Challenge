@@ -1,31 +1,32 @@
 #!/usr/bin/python3
+"""
+Factorize numbers in a file into a product of two prime numbers
+"""
+import sys
 
-# Import the argv module from the sys library
-from sys import argv
 
-# Open the file passed as a command line argument and iterate over each line
-with open(argv[1]) as f:
-    for line in f:
-        # Convert the line to an integer and assign it to the variable 'num'
-        num = int(line)
-
-        # Print the number followed by an equals sign
-        print("{:d}=".format(num), end="")
-
-        # If the number is even, print the factorization and continue to the next line
-        if num % 2 == 0:
-            print("{}*2".format(num//2))
-            continue
-
-        # If the number is odd, search for its prime factorization
-        for i in range(3, num, 2):
-            if num % i == 0:
-                # If a factor is found, find its prime factorization
-                factor = num//i
-                for j in range(3, factor, 2):
-                    if factor % j == 0 or i % j == 0:
-                        # If the factor is not prime, break the loop and search for the next factor
+def factorize():
+    """
+    A function to search file and factorize the given set of numbers into two prime numbers (format n = p*q)
+    """
+    try:
+        file = sys.argv[1]
+        with open(file) as f:
+            for line_number in f:
+                line_number = int(line_number)
+                if line_number % 2 == 0:
+                        print("{}={}*{}".format(line_number, line_number // 2, 2))
+                        continue
+                i = 3
+                while i < line_number // 2:
+                    if line_number % i == 0:
+                        print("{}={}*{}".format(line_number, line_number // i, i))
                         break
-                # If the factor is prime, print its factorization and break the loop
-                print("{}*{}".format(factor, i))
-                break
+                    i = i + 2
+                if i == (line_number // 2) + 1:
+                    print("{}={}*{}".format(line_number, line_number, 1))
+    except (IndexError):
+        pass
+
+
+factorize()
